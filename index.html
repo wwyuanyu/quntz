@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>群聊导航</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #f7f5ff;
+    min-height: 100vh;
+    padding: 0 0 50px;
+    color: #1a1a2e;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ===== 背景装饰层 ===== */
+  .bg-deco {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .bg-deco .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.25;
+  }
+  .blob-1 { width: 320px; height: 320px; background: #a5b4fc; top: -80px; left: -100px; }
+  .blob-2 { width: 260px; height: 260px; background: #c4b5fd; top: 30%; right: -80px; }
+  .blob-3 { width: 300px; height: 300px; background: #ddd6fe; bottom: 10%; left: -120px; }
+  .blob-4 { width: 200px; height: 200px; background: #b4c6ff; bottom: -60px; right: 5%; }
+
+  .bg-deco .shape { position: absolute; opacity: 0.15; }
+  .shape-circle { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #7c3aed; }
+  .shape-square { width: 14px; height: 14px; border: 2px solid #667eea; transform: rotate(45deg); }
+  .shape-triangle {
+    width: 0; height: 0;
+    border-left: 9px solid transparent; border-right: 9px solid transparent; border-bottom: 16px solid #8b5cf6;
+  }
+  .shape-dot { width: 8px; height: 8px; border-radius: 50%; background: #a78bfa; }
+
+  .s1{top:8%;left:12%} .s2{top:15%;right:18%} .s3{top:35%;left:5%} .s4{top:42%;right:8%}
+  .s5{top:55%;left:20%} .s6{top:60%;right:22%} .s7{top:75%;left:8%} .s8{top:80%;right:12%}
+  .s9{top:25%;left:48%} .s10{top:68%;right:45%} .s11{top:90%;left:35%} .s12{top:5%;right:40%}
+
+  /* 顶部装饰条 */
+  .top-bar {
+    position: relative; z-index: 1; height: 6px;
+    background: linear-gradient(90deg, #667eea, #8b5cf6, #a78bfa, #667eea);
+    background-size: 200% 100%;
+    animation: barFlow 6s linear infinite;
+  }
+  @keyframes barFlow { 0%{background-position:0% 50%} 100%{background-position:200% 50%} }
+
+  /* ===== 主内容层 ===== */
+  .container { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 36px 16px 0; }
+
+  .page-header { text-align: center; margin-bottom: 32px; position: relative; }
+  .page-header h1 {
+    font-size: 1.6em; font-weight: 800;
+    background: linear-gradient(135deg, #4c1d95, #7c3aed, #4c1d95);
+    background-size: 200% 100%;
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    animation: titleShine 4s ease infinite; letter-spacing: 1px;
+  }
+  @keyframes titleShine { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
+  .page-header p { font-size: 0.85em; color: #a78bfa; margin-top: 6px; }
+  .page-header::before, .page-header::after {
+    content: ''; position: absolute; top: 50%; width: 40px; height: 2px;
+    background: linear-gradient(90deg, transparent, #a78bfa, transparent);
+  }
+  .page-header::before { left: calc(50% - 140px); }
+  .page-header::after  { right: calc(50% - 140px); }
+
+  /* ===== 网格布局 ===== */
+  .card-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+
+  /* ===== 群名片卡片 ===== */
+  .group-card {
+    background: #fff; border: 2px solid #fff; border-radius: 18px; overflow: hidden;
+    text-decoration: none; color: inherit; display: block;
+    box-shadow: 0 2px 12px rgba(124,58,237,0.06);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    cursor: pointer; position: relative;
+  }
+  .group-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(124,58,237,0.13); }
+  .group-card:active { transform: scale(0.97); }
+  .group-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 0; height: 0;
+    border-style: solid; border-width: 18px 18px 0 0;
+    border-color: rgba(124,58,237,0.08) transparent transparent transparent;
+    z-index: 2; pointer-events: none;
+  }
+
+  .card-banner { width: 100%; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  /* 群头像图片样式 */
+  .card-banner .group-avatar {
+    width: 55%;
+    height: 55%;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255,255,255,0.6);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1;
+  }
+  .banner-icon {
+    width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.35);
+    display: flex; align-items: center; justify-content: center; font-size: 1.5em; backdrop-filter: blur(4px);
+  }
+
+  /* 8种蓝紫配色 */
+  .bg-1 { background: linear-gradient(135deg, #c7d2fe, #a5b4fc); }
+  .bg-2 { background: linear-gradient(135deg, #ddd6fe, #c4b5fd); }
+  .bg-3 { background: linear-gradient(135deg, #b4c6ff, #9b8cff); }
+  .bg-4 { background: linear-gradient(135deg, #a5b4fc, #8b5cf6); }
+  .bg-5 { background: linear-gradient(135deg, #c4b5fd, #7c3aed); }
+  .bg-6 { background: linear-gradient(135deg, #bfdbfe, #a78bfa); }
+  .bg-7 { background: linear-gradient(135deg, #d8b4fe, #8b5cf6); }
+  .bg-8 { background: linear-gradient(135deg, #a5b4fc, #6d28d9); }
+
+  .card-body { padding: 14px 16px 16px; text-align: center; background: #fff; position: relative; }
+  .card-body::before {
+    content: ''; position: absolute; top: 0; left: 20%; width: 60%; height: 2px;
+    background: linear-gradient(90deg, transparent, #ddd6fe, transparent);
+  }
+  .card-title { font-size: 1em; font-weight: 700; color: #1e1e3a; margin-bottom: 3px; }
+  .card-subtitle { font-size: 0.75em; color: #b9a4e8; }
+
+  /* ===== 未创建群卡片样式 ===== */
+  .group-card.disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+    filter: grayscale(0.6);
+  }
+  .group-card.disabled:hover {
+    transform: none;
+    box-shadow: 0 2px 12px rgba(124,58,237,0.06);
+  }
+  .group-card.disabled:active {
+    transform: none;
+  }
+  .group-card.disabled .card-title {
+    color: #999;
+  }
+  .group-card.disabled .card-subtitle {
+    color: #ccc;
+  }
+  /* 未创建角标 */
+  .group-card.disabled .card-body::after {
+    content: '未创建';
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-size: 0.65em;
+    color: #fff;
+    background: #c4b5fd;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+
+  /* ===== 底部装饰 ===== */
+  .footer-section { position: relative; z-index: 1; margin-top: 40px; text-align: center; }
+  .footer-line { width: 120px; height: 3px; background: linear-gradient(90deg, transparent, #a78bfa, transparent); margin: 0 auto 14px; border-radius: 2px; }
+  .footer-note { font-size: 0.78em; color: #c4b5fd; }
+
+  /* ===== 跳转弹窗 ===== */
+  .overlay {
+    display: none; position: fixed; inset: 0; background: rgba(30,20,60,0.5); z-index: 999;
+    align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px);
+  }
+  .overlay.show { display: flex; }
+  .dialog {
+    background: #fff; border-radius: 20px; padding: 30px 26px 24px; width: 100%; max-width: 310px;
+    text-align: center; animation: pop 0.22s ease; box-shadow: 0 20px 60px rgba(124,58,237,0.2);
+  }
+  @keyframes pop { from{transform:scale(0.93);opacity:0} to{transform:scale(1);opacity:1} }
+  .dialog-icon-wrap {
+    width: 56px; height: 56px; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 1.8em; margin-bottom: 14px; background: linear-gradient(135deg, #667eea, #8b5cf6);
+    overflow: hidden;
+  }
+  /* 弹窗内的群头像 */
+  .dialog-icon-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+  }
+  .dialog-title { font-size: 1.1em; font-weight: 700; color: #1e1e3a; margin-bottom: 6px; }
+  .dialog-text { font-size: 0.85em; color: #999; margin-bottom: 22px; line-height: 1.5; }
+  .dialog-btn {
+    display: block; width: 100%; padding: 12px; border: none; border-radius: 12px;
+    font-size: 1em; font-weight: 600; cursor: pointer; text-decoration: none; margin-bottom: 10px; transition: opacity 0.2s;
+  }
+  .dialog-btn-primary { background: linear-gradient(135deg, #667eea, #7c3aed); color: #fff; }
+  .dialog-btn-primary:hover { opacity: 0.88; }
+  .dialog-btn-cancel { background: #f3f1ff; color: #7c3aed; }
+  .dialog-btn-cancel:hover { background: #ebe5ff; }
+
+  /* ===== 响应式 ===== */
+  @media (max-width: 820px) {
+    .card-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    .page-header::before, .page-header::after { display: none; }
+  }
+  @media (max-width: 420px) {
+    .container { padding: 24px 12px 0; }
+    .page-header h1 { font-size: 1.3em; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 背景装饰层 -->
+<div class="bg-deco">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+  <div class="shape shape-circle s1"></div>
+  <div class="shape shape-square s2"></div>
+  <div class="shape shape-triangle s3"></div>
+  <div class="shape shape-dot s4"></div>
+  <div class="shape shape-circle s5"></div>
+  <div class="shape shape-square s6"></div>
+  <div class="shape shape-dot s7"></div>
+  <div class="shape shape-triangle s8"></div>
+  <div class="shape shape-square s9"></div>
+  <div class="shape shape-circle s10"></div>
+  <div class="shape shape-dot s11"></div>
+  <div class="shape shape-triangle s12"></div>
+</div>
+
+<div class="top-bar"></div>
+
+<div class="container">
+  <div class="page-header">
+    <h1>群聊导航</h1>
+    <p>自选群聊加入</p>
+  </div>
+
+  <div class="card-grid">
+
+    <!-- 卡片1：风纪小队⑨①组实习群 -->
+    <a class="group-card" href="javascript:void(0)"
+       data-name="风纪小队⑨①组实习群"
+       data-avatar="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEYTIFqbXtMJ_fG8FDXOqBq3uHe80ywiQACCiEAAhvBcVdkp67w6xYQxz0E.jpeg"
+       data-link="https://qm.qq.com/cgi-bin/qm/qr?k=GN6I691GnhfbX2v__gegfMLD1mstnyRO&jump_from=webapi&authKey=2RTEz5aD6F3eVCpbHkEPMF/tq8BdJIku1+8zsG2L3zhUxCeb+Joohrcfty2DslsE">
+      <div class="card-banner bg-1">
+        <img class="group-avatar" src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEYTIFqbXtMJ_fG8FDXOqBq3uHe80ywiQACCiEAAhvBcVdkp67w6xYQxz0E.jpeg" alt="风纪小队⑨①组实习群头像">
+      </div>
+      <div class="card-body">
+        <div class="card-title">风纪小队⑨①组实习群</div>
+        <div class="card-subtitle">QQ官方加群链接</div>
+      </div>
+    </a>
+
+    <!-- 卡片2：外挂反馈交流群5（本次新增） -->
+    <a class="group-card" href="javascript:void(0)"
+       data-name="外挂反馈交流群5"
+       data-avatar="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEYTKlqbX3LjEwYj2ZDMZZqaJ_YX2ur5wACPyEAAhvBcVdp8yRUtiuOfD0E.jpg"
+       data-link="https://qm.qq.com/cgi-bin/qm/qr?k=Lw7npYjWIHyhkgGoUa2_uIrOzDGQgW09&jump_from=webapi&authKey=ixfJM/d+YzYmmBJFPk8JXHeYN9LgIzMFgfzRlzUp4d41j0luZpKMR9X3FnpZFklV">
+      <div class="card-banner bg-2">
+        <img class="group-avatar" src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEYTKlqbX3LjEwYj2ZDMZZqaJ_YX2ur5wACPyEAAhvBcVdp8yRUtiuOfD0E.jpg" alt="外挂反馈交流群5头像">
+      </div>
+      <div class="card-body">
+        <div class="card-title">外挂反馈交流群5</div>
+        <div class="card-subtitle">QQ官方加群链接</div>
+      </div>
+    </a>
+
+    <!-- 卡片3（未创建群） -->
+    <a class="group-card disabled" href="javascript:void(0)"
+       data-name="设计灵感群" data-link="">
+      <div class="card-banner bg-3"></div>
+      <div class="card-body">
+        <div class="card-title">设计灵感群</div>
+        <div class="card-subtitle">群号：********</div>
+      </div>
+    </a>
+
+    <!-- 卡片4（未创建群） -->
+    <a class="group-card disabled" href="javascript:void(0)"
+       data-name="学习互助群" data-link="">
+      <div class="card-banner bg-4"></div>
+      <div class="card-body">
+        <div class="card-title">学习互助群</div>
+        <div class="card-subtitle">群号：********</div>
+      </div>
+    </a>
+
+    <!-- 卡片5（未创建群） -->
+    <a class="group-card disabled" href="javascript:void(0)"
+       data-name="资源共享群" data-link="">
+      <div class="card-banner bg-5"></div>
+      <div class="card-body">
+        <div class="card-title">资源共享群</div>
+        <div class="card-subtitle">群号：********</div>
+      </div>
+    </a>
+
+    <!-- 卡片6（未创建群） -->
+    <a class="group-card disabled" href="javascript:void(0)"
+       data-name="创业交流群" data-link="">
+      <div class="card-banner bg-6"></div>
+      <div class="card-body">
+        <div class="card-title">创业交流群</div>
+        <div class="card-subtitle">群号：********</div>
+      </div>
+    </a>
+
+    <!-- 卡片7（未创建群） -->
+    <a class="group-card disabled" href="javascript:void(0)"
+       data-name="游戏开黑群" data-link="">
+      <div class="card-banner bg-7"></div>
+      <div class="card-body">
+        <div class="card-title">游戏开黑群</div>
+        <div class="card-subtitle">群号：********</div>
+      </div>
+    </a>
+
+    <!-- 卡片8（未创建群） -->
+    <a class="group-card disabled" href="javascript:void(0)"
+       data-name="日常闲聊群" data-link="">
+      <div class="card-banner bg-8"></div>
+      <div class="card-body">
+        <div class="card-title">日常闲聊群</div>
+        <div class="card-subtitle">群号：********</div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="footer-section">
+    <div class="footer-line"></div>
+    <p class="footer-note">自选群聊加入</p>
+  </div>
+</div>
+
+<!-- 跳转确认弹窗 -->
+<div class="overlay" id="overlay">
+  <div class="dialog">
+    <div class="dialog-icon-wrap" id="dIconWrap">🔗</div>
+    <div class="dialog-title" id="dTitle">确认跳转</div>
+    <div class="dialog-text" id="dText">即将离开当前页面，前往群聊链接</div>
+    <a class="dialog-btn dialog-btn-primary" id="dConfirm" href="#">立即加入</a>
+    <button class="dialog-btn dialog-btn-cancel" id="dCancel">取消</button>
+  </div>
+</div>
+
+<script>
+  const overlay  = document.getElementById('overlay');
+  const dTitle   = document.getElementById('dTitle');
+  const dText    = document.getElementById('dText');
+  const dConfirm = document.getElementById('dConfirm');
+  const dIconWrap = document.getElementById('dIconWrap');
+
+  document.querySelectorAll('.group-card').forEach(card => {
+    card.addEventListener('click', e => {
+      e.preventDefault();
+      // 未创建群：不弹窗，直接返回
+      if (card.classList.contains('disabled')) {
+        return;
+      }
+      const name  = card.dataset.name;
+      const link  = card.dataset.link;
+      const avatar = card.dataset.avatar;
+      // 动态切换弹窗图标：有头像用图片，没有用 emoji
+      if (avatar) {
+        dIconWrap.innerHTML = '<img src="' + avatar + '" alt="' + name + '">';
+      } else {
+        dIconWrap.textContent = '🔗';
+      }
+      dTitle.textContent    = '加入「' + name + '」';
+      dText.textContent     = '即将离开本页，前往「' + name + '」的入群链接';
+      dConfirm.href         = link;
+      overlay.classList.add('show');
+    });
+  });
+
+  document.getElementById('dCancel').addEventListener('click', () => overlay.classList.remove('show'));
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('show'); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.classList.remove('show'); });
+</script>
+
+</body>
+</html>
