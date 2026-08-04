@@ -100,7 +100,6 @@
   }
 
   .card-banner { width: 100%; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
-  /* 群头像图片样式 */
   .card-banner .group-avatar {
     width: 55%;
     height: 55%;
@@ -153,7 +152,6 @@
   .group-card.disabled .card-subtitle {
     color: #ccc;
   }
-  /* 未创建角标 */
   .group-card.disabled .card-body::after {
     content: '未创建';
     position: absolute;
@@ -188,7 +186,6 @@
     font-size: 1.8em; margin-bottom: 14px; background: linear-gradient(135deg, #667eea, #8b5cf6);
     overflow: hidden;
   }
-  /* 弹窗内的群头像 */
   .dialog-icon-wrap img {
     width: 100%;
     height: 100%;
@@ -263,17 +260,13 @@
       </div>
     </a>
 
-    <!-- 卡片2：外挂反馈交流群5（本次新增） -->
-    <a class="group-card" href="javascript:void(0)"
-       data-name="外挂反馈交流群5"
-       data-avatar="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEYTKlqbX3LjEwYj2ZDMZZqaJ_YX2ur5wACPyEAAhvBcVdp8yRUtiuOfD0E.jpg"
-       data-link="https://qm.qq.com/cgi-bin/qm/qr?k=Lw7npYjWIHyhkgGoUa2_uIrOzDGQgW09&jump_from=webapi&authKey=ixfJM/d+YzYmmBJFPk8JXHeYN9LgIzMFgfzRlzUp4d41j0luZpKMR9X3FnpZFklV">
-      <div class="card-banner bg-2">
-        <img class="group-avatar" src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEYTKlqbX3LjEwYj2ZDMZZqaJ_YX2ur5wACPyEAAhvBcVdp8yRUtiuOfD0E.jpg" alt="外挂反馈交流群5头像">
-      </div>
+    <!-- 卡片2：外挂反馈交流群5（已设为未创建） -->
+    <a class="group-card disabled" href="javascript:void(0)"
+       data-name="外挂反馈交流群5" data-link="">
+      <div class="card-banner bg-2"></div>
       <div class="card-body">
         <div class="card-title">外挂反馈交流群5</div>
-        <div class="card-subtitle">QQ官方加群链接</div>
+        <div class="card-subtitle">群号：********</div>
       </div>
     </a>
 
@@ -366,14 +359,12 @@
   document.querySelectorAll('.group-card').forEach(card => {
     card.addEventListener('click', e => {
       e.preventDefault();
-      // 未创建群：不弹窗，直接返回
       if (card.classList.contains('disabled')) {
         return;
       }
       const name  = card.dataset.name;
       const link  = card.dataset.link;
       const avatar = card.dataset.avatar;
-      // 动态切换弹窗图标：有头像用图片，没有用 emoji
       if (avatar) {
         dIconWrap.innerHTML = '<img src="' + avatar + '" alt="' + name + '">';
       } else {
