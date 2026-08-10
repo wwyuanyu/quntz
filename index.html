@@ -118,7 +118,7 @@
     display: flex; align-items: center; justify-content: center; font-size: 1.5em; backdrop-filter: blur(4px);
   }
 
-  /* 8种蓝紫配色 */
+  /* 10种蓝紫配色（扩展） */
   .bg-1 { background: linear-gradient(135deg, #c7d2fe, #a5b4fc); }
   .bg-2 { background: linear-gradient(135deg, #ddd6fe, #c4b5fd); }
   .bg-3 { background: linear-gradient(135deg, #b4c6ff, #9b8cff); }
@@ -127,6 +127,8 @@
   .bg-6 { background: linear-gradient(135deg, #bfdbfe, #a78bfa); }
   .bg-7 { background: linear-gradient(135deg, #d8b4fe, #8b5cf6); }
   .bg-8 { background: linear-gradient(135deg, #a5b4fc, #6d28d9); }
+  .bg-9 { background: linear-gradient(135deg, #93c5fd, #7c3aed); }
+  .bg-10 { background: linear-gradient(135deg, #e9d5ff, #a78bfa); }
 
   .card-body { padding: 14px 16px 16px; text-align: center; background: #fff; position: relative; }
   .card-body::before {
@@ -135,6 +137,22 @@
   }
   .card-title { font-size: 1em; font-weight: 700; color: #1e1e3a; margin-bottom: 3px; }
   .card-subtitle { font-size: 0.75em; color: #b9a4e8; }
+
+  /* 活跃卡片群号标签 */
+  .group-card .card-body::after {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    font-size: 0.65em;
+    color: #fff;
+    background: #7c3aed;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .group-card[data-name="迷你世界辅助群"] .card-body::after { content: '102人'; }
+  .group-card[data-name="外挂交流群（2）"] .card-body::after { content: '28人'; }
 
   /* ===== 未创建群卡片样式 ===== */
   .group-card.disabled {
@@ -265,23 +283,31 @@
       </div>
     </a>
 
-    <!-- 卡片2：外挂反馈交流群5（未创建） -->
-    <a class="group-card disabled" href="javascript:void(0)"
-       data-name="外挂反馈交流群5" data-link="">
-      <div class="card-banner bg-2"></div>
+    <!-- 卡片2：外挂交流群（2）✅ 已激活 -->
+    <a class="group-card" href="javascript:void(0)"
+       data-name="外挂交流群（2）"
+       data-avatar="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY421qeV_Iyg1x05Du8duI636tAAEd2coAApkkAAIVXdFXKL9T6pnv27E9BA.jpeg"
+       data-link="https://qm.qq.com/q/TAn33pt7O2">
+      <div class="card-banner bg-2">
+        <img class="group-avatar" src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY421qeV_Iyg1x05Du8duI636tAAEd2coAApkkAAIVXdFXKL9T6pnv27E9BA.jpeg" alt="外挂交流群（2）头像">
+      </div>
       <div class="card-body">
-        <div class="card-title">外挂反馈交流群5</div>
-        <div class="card-subtitle">群号：********</div>
+        <div class="card-title">外挂交流群（2）</div>
+        <div class="card-subtitle">群号：536538652</div>
       </div>
     </a>
 
-    <!-- 卡片3（未创建群） -->
-    <a class="group-card disabled" href="javascript:void(0)"
-       data-name="设计灵感群" data-link="">
-      <div class="card-banner bg-3"></div>
+    <!-- 卡片3：迷你世界辅助群 ✅ 已激活 -->
+    <a class="group-card" href="javascript:void(0)"
+       data-name="迷你世界辅助群"
+       data-avatar="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY421qeV_Iyg1x05Du8duI636tAAEd2coAApkkAAIVXdFXKL9T6pnv27E9BA.jpeg"
+       data-link="https://qm.qq.com/q/xkhJyJTKWA">
+      <div class="card-banner bg-3">
+        <img class="group-avatar" src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY421qeV_Iyg1x05Du8duI636tAAEd2coAApkkAAIVXdFXKL9T6pnv27E9BA.jpeg" alt="迷你世界辅助群头像">
+      </div>
       <div class="card-body">
-        <div class="card-title">设计灵感群</div>
-        <div class="card-subtitle">群号：********</div>
+        <div class="card-title">迷你世界辅助群</div>
+        <div class="card-subtitle">群号：912276866</div>
       </div>
     </a>
 
