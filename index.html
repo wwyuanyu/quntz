@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -7,55 +7,268 @@
 <link rel="icon" type="image/jpeg" href="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY22ZqeGDVMsmh3m6U368qqg9uPDBy_AACrCIAAhVdyVdqcQo2GYsynj0E.jpg">
 <link rel="apple-touch-icon" href="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY22ZqeGDVMsmh3m6U368qqg9uPDBy_AACrCIAAhVdyVdqcQo2GYsynj0E.jpg">
 <style>
+  /* ===== 主题变量 ===== */
+  :root[data-theme="dark"] {
+    --bg-base: #0a0a1a;
+    --bg-card: #141432;
+    --bg-card-body: #181840;
+    --text-primary: #e8e6ff;
+    --text-secondary: #a09ec7;
+    --text-muted: #6f6da3;
+    --accent-purple: #8b5cf6;
+    --accent-blue: #6366f1;
+    --accent-light: #a78bfa;
+    --accent-glow: rgba(139, 92, 246, 0.4);
+    --card-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+    --card-shadow-hover: 0 12px 40px rgba(99, 102, 241, 0.25);
+    --card-border: rgba(139, 92, 246, 0.2);
+    --dialog-bg: #1a1a3e;
+    --dialog-btn-cancel-bg: #2a2a55;
+    --dialog-btn-cancel-hover: #33337a;
+    --overlay-bg: rgba(5, 5, 20, 0.75);
+    --footer-color: #6f6da3;
+    --disabled-title: #555577;
+    --disabled-sub: #444466;
+    --star-color: rgba(255, 255, 255, 0.8);
+    --nebula-1: rgba(99, 102, 241, 0.15);
+    --nebula-2: rgba(139, 92, 246, 0.12);
+    --nebula-3: rgba(168, 85, 247, 0.1);
+    --nebula-4: rgba(67, 56, 202, 0.13);
+    --blob-1: #4338ca;
+    --blob-2: #7c3aed;
+    --blob-3: #5b21b6;
+    --blob-4: #4f46e5;
+    --shape-border: #a78bfa;
+    --shape-bg: #c4b5fd;
+    --topbar-grad: linear-gradient(90deg, #4338ca, #8b5cf6, #a78bfa, #4338ca);
+    --card-tag-bg: #7c3aed;
+    --card-tag-disabled-bg: #4c1d95;
+    --header-line: linear-gradient(90deg, transparent, #a78bfa, transparent);
+    --card-body-line: linear-gradient(90deg, transparent, #4338ca, transparent);
+    --footer-line-grad: linear-gradient(90deg, transparent, #6f6da3, transparent);
+    --avatar-border: rgba(139, 92, 246, 0.5);
+    --avatar-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+    --banner-icon-bg: rgba(255, 255, 255, 0.1);
+    --card-corner: rgba(139, 92, 246, 0.15);
+    --page-header-grad: linear-gradient(135deg, #c4b5fd, #8b5cf6, #c4b5fd);
+    --page-sub: #a09ec7;
+  }
+
+  :root[data-theme="light"] {
+    --bg-base: #f7f5ff;
+    --bg-card: #ffffff;
+    --bg-card-body: #ffffff;
+    --text-primary: #1e1e3a;
+    --text-secondary: #b9a4e8;
+    --text-muted: #999;
+    --accent-purple: #7c3aed;
+    --accent-blue: #667eea;
+    --accent-light: #a78bfa;
+    --accent-glow: rgba(124, 58, 237, 0.15);
+    --card-shadow: 0 2px 12px rgba(124, 58, 237, 0.06);
+    --card-shadow-hover: 0 12px 30px rgba(124, 58, 237, 0.13);
+    --card-border: #ffffff;
+    --dialog-bg: #ffffff;
+    --dialog-btn-cancel-bg: #f3f1ff;
+    --dialog-btn-cancel-hover: #ebe5ff;
+    --overlay-bg: rgba(30, 20, 60, 0.5);
+    --footer-color: #c4b5fd;
+    --disabled-title: #999999;
+    --disabled-sub: #cccccc;
+    --star-color: transparent;
+    --nebula-1: rgba(165, 180, 252, 0.25);
+    --nebula-2: rgba(196, 181, 253, 0.25);
+    --nebula-3: rgba(180, 198, 255, 0.25);
+    --nebula-4: rgba(165, 180, 252, 0.2);
+    --blob-1: #a5b4fc;
+    --blob-2: #c4b5fd;
+    --blob-3: #ddd6fe;
+    --blob-4: #b4c6ff;
+    --shape-border: #7c3aed;
+    --shape-bg: #a78bfa;
+    --topbar-grad: linear-gradient(90deg, #667eea, #8b5cf6, #a78bfa, #667eea);
+    --card-tag-bg: #7c3aed;
+    --card-tag-disabled-bg: #c4b5fd;
+    --header-line: linear-gradient(90deg, transparent, #a78bfa, transparent);
+    --card-body-line: linear-gradient(90deg, transparent, #ddd6fe, transparent);
+    --footer-line-grad: linear-gradient(90deg, transparent, #a78bfa, transparent);
+    --avatar-border: rgba(255, 255, 255, 0.6);
+    --avatar-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    --banner-icon-bg: rgba(255, 255, 255, 0.35);
+    --card-corner: rgba(124, 58, 237, 0.08);
+    --page-header-grad: linear-gradient(135deg, #4c1d95, #7c3aed, #4c1d95);
+    --page-sub: #a78bfa;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: #f7f5ff;
+    background: var(--bg-base);
     min-height: 100vh;
     padding: 0 0 50px;
-    color: #1a1a2e;
+    color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
     position: relative;
     overflow-x: hidden;
+    transition: background 0.5s ease, color 0.5s ease;
   }
 
-  /* ===== 背景装饰层 ===== */
-  .bg-deco {
+  /* ===== 星空背景（暗色模式核心） ===== */
+  .stars-layer {
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
     overflow: hidden;
   }
-  .bg-deco .blob {
+
+  /* 星空画布 */
+  #starCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* 星云光晕 */
+  .nebula {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 1;
+    animation: nebulaPulse 8s ease-in-out infinite;
+  }
+  .nebula-1 { width: 500px; height: 500px; background: var(--nebula-1); top: -150px; left: -200px; }
+  .nebula-2 { width: 400px; height: 400px; background: var(--nebula-2); top: 20%; right: -120px; animation-delay: -2s; }
+  .nebula-3 { width: 450px; height: 450px; background: var(--nebula-3); bottom: 5%; left: -150px; animation-delay: -4s; }
+  .nebula-4 { width: 350px; height: 350px; background: var(--nebula-4); bottom: -80px; right: 10%; animation-delay: -6s; }
+
+  @keyframes nebulaPulse {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 1; }
+  }
+
+  /* 流星 */
+  .meteor {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: linear-gradient(45deg, #fff, transparent);
+    border-radius: 50%;
+    animation: meteorFall linear infinite;
+    opacity: 0;
+  }
+  .meteor::before {
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
+    transform: rotate(-45deg);
+    transform-origin: right;
+    top: 0;
+    right: 0;
+  }
+  .meteor-1 { top: 10%; left: 30%; animation-duration: 4s; animation-delay: 0s; }
+  .meteor-2 { top: 20%; left: 60%; animation-duration: 5s; animation-delay: 2s; }
+  .meteor-3 { top: 5%; left: 80%; animation-duration: 3.5s; animation-delay: 4s; }
+
+  @keyframes meteorFall {
+    0% { opacity: 0; transform: translate(0, 0); }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { opacity: 0; transform: translate(-300px, 300px); }
+  }
+
+  /* 浅色模式背景装饰层 */
+  .bg-deco { display: none; }
+
+  [data-theme="light"] .bg-deco {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  [data-theme="light"] .bg-deco .blob {
     position: absolute;
     border-radius: 50%;
     filter: blur(40px);
     opacity: 0.25;
   }
-  .blob-1 { width: 320px; height: 320px; background: #a5b4fc; top: -80px; left: -100px; }
-  .blob-2 { width: 260px; height: 260px; background: #c4b5fd; top: 30%; right: -80px; }
-  .blob-3 { width: 300px; height: 300px; background: #ddd6fe; bottom: 10%; left: -120px; }
-  .blob-4 { width: 200px; height: 200px; background: #b4c6ff; bottom: -60px; right: 5%; }
+  [data-theme="light"] .blob-1 { width: 320px; height: 320px; background: var(--blob-1); top: -80px; left: -100px; }
+  [data-theme="light"] .blob-2 { width: 260px; height: 260px; background: var(--blob-2); top: 30%; right: -80px; }
+  [data-theme="light"] .blob-3 { width: 300px; height: 300px; background: var(--blob-3); bottom: 10%; left: -120px; }
+  [data-theme="light"] .blob-4 { width: 200px; height: 200px; background: var(--blob-4); bottom: -60px; right: 5%; }
 
-  .bg-deco .shape { position: absolute; opacity: 0.15; }
-  .shape-circle { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #7c3aed; }
-  .shape-square { width: 14px; height: 14px; border: 2px solid #667eea; transform: rotate(45deg); }
-  .shape-triangle {
+  [data-theme="light"] .bg-deco .shape { position: absolute; opacity: 0.15; }
+  [data-theme="light"] .shape-circle { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--shape-border); }
+  [data-theme="light"] .shape-square { width: 14px; height: 14px; border: 2px solid var(--shape-border); transform: rotate(45deg); }
+  [data-theme="light"] .shape-triangle {
     width: 0; height: 0;
-    border-left: 9px solid transparent; border-right: 9px solid transparent; border-bottom: 16px solid #8b5cf6;
+    border-left: 9px solid transparent; border-right: 9px solid transparent; border-bottom: 16px solid var(--shape-bg);
   }
-  .shape-dot { width: 8px; height: 8px; border-radius: 50%; background: #a78bfa; }
+  [data-theme="light"] .shape-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--shape-bg); }
 
   .s1{top:8%;left:12%} .s2{top:15%;right:18%} .s3{top:35%;left:5%} .s4{top:42%;right:8%}
   .s5{top:55%;left:20%} .s6{top:60%;right:22%} .s7{top:75%;left:8%} .s8{top:80%;right:12%}
   .s9{top:25%;left:48%} .s10{top:68%;right:45%} .s11{top:90%;left:35%} .s12{top:5%;right:40%}
 
-  /* 顶部装饰条 */
+  /* ===== 昼夜切换按钮 ===== */
+  .theme-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 1000;
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--card-border);
+    border-radius: 50%;
+    background: var(--bg-card);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4em;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.5s ease, border-color 0.5s ease;
+    backdrop-filter: blur(8px);
+  }
+  .theme-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: var(--card-shadow-hover);
+  }
+  .theme-toggle:active {
+    transform: scale(0.95);
+  }
+  .theme-toggle .icon-sun,
+  .theme-toggle .icon-moon {
+    position: absolute;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  [data-theme="dark"] .theme-toggle .icon-sun {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+  [data-theme="dark"] .theme-toggle .icon-moon {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.5);
+  }
+  [data-theme="light"] .theme-toggle .icon-sun {
+    opacity: 0;
+    transform: rotate(90deg) scale(0.5);
+  }
+  [data-theme="light"] .theme-toggle .icon-moon {
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+  }
+
+  /* ===== 顶部装饰条 ===== */
   .top-bar {
     position: relative; z-index: 1; height: 6px;
-    background: linear-gradient(90deg, #667eea, #8b5cf6, #a78bfa, #667eea);
+    background: var(--topbar-grad);
     background-size: 200% 100%;
     animation: barFlow 6s linear infinite;
   }
@@ -67,16 +280,19 @@
   .page-header { text-align: center; margin-bottom: 32px; position: relative; }
   .page-header h1 {
     font-size: 1.6em; font-weight: 800;
-    background: linear-gradient(135deg, #4c1d95, #7c3aed, #4c1d95);
+    background: var(--page-header-grad);
     background-size: 200% 100%;
     -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     animation: titleShine 4s ease infinite; letter-spacing: 1px;
   }
+  [data-theme="dark"] .page-header h1 {
+    text-shadow: 0 0 40px rgba(139, 92, 246, 0.3);
+  }
   @keyframes titleShine { 0%,100%{background-position:0% 50%} 50%{background-position:100% 50%} }
-  .page-header p { font-size: 0.85em; color: #a78bfa; margin-top: 6px; }
+  .page-header p { font-size: 0.85em; color: var(--page-sub); margin-top: 6px; }
   .page-header::before, .page-header::after {
     content: ''; position: absolute; top: 50%; width: 40px; height: 2px;
-    background: linear-gradient(90deg, transparent, #a78bfa, transparent);
+    background: var(--header-line);
   }
   .page-header::before { left: calc(50% - 140px); }
   .page-header::after  { right: calc(50% - 140px); }
@@ -86,19 +302,37 @@
 
   /* ===== 群名片卡片 ===== */
   .group-card {
-    background: #fff; border: 2px solid #fff; border-radius: 18px; overflow: hidden;
-    text-decoration: none; color: inherit; display: block;
-    box-shadow: 0 2px 12px rgba(124,58,237,0.06);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-    cursor: pointer; position: relative;
+    background: var(--bg-card);
+    border: 2px solid var(--card-border);
+    border-radius: 18px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.5s ease, border-color 0.5s ease;
+    cursor: pointer;
+    position: relative;
   }
-  .group-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(124,58,237,0.13); }
+  .group-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-shadow-hover);
+  }
   .group-card:active { transform: scale(0.97); }
   .group-card::before {
     content: ''; position: absolute; top: 0; left: 0; width: 0; height: 0;
     border-style: solid; border-width: 18px 18px 0 0;
-    border-color: rgba(124,58,237,0.08) transparent transparent transparent;
+    border-color: var(--card-corner) transparent transparent transparent;
     z-index: 2; pointer-events: none;
+  }
+
+  /* 暗色模式卡片发光边框效果 */
+  [data-theme="dark"] .group-card {
+    border-color: rgba(139, 92, 246, 0.15);
+  }
+  [data-theme="dark"] .group-card:hover {
+    border-color: rgba(139, 92, 246, 0.4);
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.2), 0 12px 40px rgba(0, 0, 0, 0.5);
   }
 
   .card-banner { width: 100%; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
@@ -108,35 +342,68 @@
     height: 55%;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid rgba(255,255,255,0.6);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    border: 3px solid var(--avatar-border);
+    box-shadow: var(--avatar-shadow);
     position: relative;
     z-index: 1;
   }
   .banner-icon {
-    width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.35);
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--banner-icon-bg);
     display: flex; align-items: center; justify-content: center; font-size: 1.5em; backdrop-filter: blur(4px);
   }
 
-  /* 10种蓝紫配色（扩展） */
-  .bg-1 { background: linear-gradient(135deg, #c7d2fe, #a5b4fc); }
-  .bg-2 { background: linear-gradient(135deg, #ddd6fe, #c4b5fd); }
-  .bg-3 { background: linear-gradient(135deg, #b4c6ff, #9b8cff); }
-  .bg-4 { background: linear-gradient(135deg, #a5b4fc, #8b5cf6); }
-  .bg-5 { background: linear-gradient(135deg, #c4b5fd, #7c3aed); }
-  .bg-6 { background: linear-gradient(135deg, #bfdbfe, #a78bfa); }
-  .bg-7 { background: linear-gradient(135deg, #d8b4fe, #8b5cf6); }
-  .bg-8 { background: linear-gradient(135deg, #a5b4fc, #6d28d9); }
-  .bg-9 { background: linear-gradient(135deg, #93c5fd, #7c3aed); }
-  .bg-10 { background: linear-gradient(135deg, #e9d5ff, #a78bfa); }
+  /* 暗色模式 banner 配色 */
+  [data-theme="dark"] .bg-1 { background: linear-gradient(135deg, #1e1b4b, #312e81); }
+  [data-theme="dark"] .bg-2 { background: linear-gradient(135deg, #2e1065, #4c1d95); }
+  [data-theme="dark"] .bg-3 { background: linear-gradient(135deg, #1e1b4b, #4338ca); }
+  [data-theme="dark"] .bg-4 { background: linear-gradient(135deg, #312e81, #5b21b6); }
+  [data-theme="dark"] .bg-5 { background: linear-gradient(135deg, #2e1065, #7c3aed); }
+  [data-theme="dark"] .bg-6 { background: linear-gradient(135deg, #1e3a5f, #4338ca); }
+  [data-theme="dark"] .bg-7 { background: linear-gradient(135deg, #3b0764, #6d28d9); }
+  [data-theme="dark"] .bg-8 { background: linear-gradient(135deg, #1e1b4b, #4c1d95); }
+  [data-theme="dark"] .bg-9 { background: linear-gradient(135deg, #172554, #5b21b6); }
+  [data-theme="dark"] .bg-10 { background: linear-gradient(135deg, #3b0764, #7c3aed); }
 
-  .card-body { padding: 14px 16px 16px; text-align: center; background: #fff; position: relative; }
+  /* 暗色模式下 banner 上的星点 */
+  [data-theme="dark"] .card-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.3), transparent),
+      radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.2), transparent),
+      radial-gradient(1.5px 1.5px at 60% 20%, rgba(255,255,255,0.25), transparent),
+      radial-gradient(1px 1px at 80% 60%, rgba(255,255,255,0.2), transparent),
+      radial-gradient(1px 1px at 30% 80%, rgba(255,255,255,0.15), transparent);
+    z-index: 0;
+  }
+
+  /* 浅色模式配色 */
+  [data-theme="light"] .bg-1 { background: linear-gradient(135deg, #c7d2fe, #a5b4fc); }
+  [data-theme="light"] .bg-2 { background: linear-gradient(135deg, #ddd6fe, #c4b5fd); }
+  [data-theme="light"] .bg-3 { background: linear-gradient(135deg, #b4c6ff, #9b8cff); }
+  [data-theme="light"] .bg-4 { background: linear-gradient(135deg, #a5b4fc, #8b5cf6); }
+  [data-theme="light"] .bg-5 { background: linear-gradient(135deg, #c4b5fd, #7c3aed); }
+  [data-theme="light"] .bg-6 { background: linear-gradient(135deg, #bfdbfe, #a78bfa); }
+  [data-theme="light"] .bg-7 { background: linear-gradient(135deg, #d8b4fe, #8b5cf6); }
+  [data-theme="light"] .bg-8 { background: linear-gradient(135deg, #a5b4fc, #6d28d9); }
+  [data-theme="light"] .bg-9 { background: linear-gradient(135deg, #93c5fd, #7c3aed); }
+  [data-theme="light"] .bg-10 { background: linear-gradient(135deg, #e9d5ff, #a78bfa); }
+
+  .card-body {
+    padding: 14px 16px 16px;
+    text-align: center;
+    background: var(--bg-card-body);
+    position: relative;
+    transition: background 0.5s ease;
+  }
   .card-body::before {
     content: ''; position: absolute; top: 0; left: 20%; width: 60%; height: 2px;
-    background: linear-gradient(90deg, transparent, #ddd6fe, transparent);
+    background: var(--card-body-line);
   }
-  .card-title { font-size: 1em; font-weight: 700; color: #1e1e3a; margin-bottom: 3px; }
-  .card-subtitle { font-size: 0.75em; color: #b9a4e8; }
+  .card-title { font-size: 1em; font-weight: 700; color: var(--text-primary); margin-bottom: 3px; transition: color 0.5s ease; }
+  .card-subtitle { font-size: 0.75em; color: var(--text-secondary); transition: color 0.5s ease; }
 
   /* 活跃卡片群号标签 */
   .group-card .card-body::after {
@@ -146,7 +413,7 @@
     right: 10px;
     font-size: 0.65em;
     color: #fff;
-    background: #7c3aed;
+    background: var(--card-tag-bg);
     padding: 2px 8px;
     border-radius: 10px;
     font-weight: 600;
@@ -157,21 +424,21 @@
   /* ===== 未创建群卡片样式 ===== */
   .group-card.disabled {
     cursor: not-allowed;
-    opacity: 0.55;
-    filter: grayscale(0.6);
+    opacity: 0.5;
+    filter: grayscale(0.5);
   }
   .group-card.disabled:hover {
     transform: none;
-    box-shadow: 0 2px 12px rgba(124,58,237,0.06);
+    box-shadow: var(--card-shadow);
   }
   .group-card.disabled:active {
     transform: none;
   }
   .group-card.disabled .card-title {
-    color: #999;
+    color: var(--disabled-title);
   }
   .group-card.disabled .card-subtitle {
-    color: #ccc;
+    color: var(--disabled-sub);
   }
   /* 未创建角标 */
   .group-card.disabled .card-body::after {
@@ -181,7 +448,7 @@
     right: 10px;
     font-size: 0.65em;
     color: #fff;
-    background: #c4b5fd;
+    background: var(--card-tag-disabled-bg);
     padding: 2px 8px;
     border-radius: 10px;
     font-weight: 600;
@@ -189,23 +456,35 @@
 
   /* ===== 底部装饰 ===== */
   .footer-section { position: relative; z-index: 1; margin-top: 40px; text-align: center; }
-  .footer-line { width: 120px; height: 3px; background: linear-gradient(90deg, transparent, #a78bfa, transparent); margin: 0 auto 14px; border-radius: 2px; }
-  .footer-note { font-size: 0.78em; color: #c4b5fd; }
+  .footer-line { width: 120px; height: 3px; background: var(--footer-line-grad); margin: 0 auto 14px; border-radius: 2px; }
+  .footer-note { font-size: 0.78em; color: var(--footer-color); }
 
   /* ===== 跳转弹窗 ===== */
   .overlay {
-    display: none; position: fixed; inset: 0; background: rgba(30,20,60,0.5); z-index: 999;
+    display: none; position: fixed; inset: 0; background: var(--overlay-bg); z-index: 999;
     align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(4px);
+    transition: background 0.5s ease;
   }
   .overlay.show { display: flex; }
   .dialog {
-    background: #fff; border-radius: 20px; padding: 30px 26px 24px; width: 100%; max-width: 310px;
-    text-align: center; animation: pop 0.22s ease; box-shadow: 0 20px 60px rgba(124,58,237,0.2);
+    background: var(--dialog-bg);
+    border-radius: 20px;
+    padding: 30px 26px 24px;
+    width: 100%;
+    max-width: 310px;
+    text-align: center;
+    animation: pop 0.22s ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    transition: background 0.5s ease;
+  }
+  [data-theme="dark"] .dialog {
+    box-shadow: 0 0 60px rgba(99, 102, 241, 0.15), 0 20px 60px rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.15);
   }
   @keyframes pop { from{transform:scale(0.93);opacity:0} to{transform:scale(1);opacity:1} }
   .dialog-icon-wrap {
     width: 56px; height: 56px; border-radius: 16px; display: inline-flex; align-items: center; justify-content: center;
-    font-size: 1.8em; margin-bottom: 14px; background: linear-gradient(135deg, #667eea, #8b5cf6);
+    font-size: 1.8em; margin-bottom: 14px; background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
     overflow: hidden;
   }
   /* 弹窗内的群头像 */
@@ -215,31 +494,45 @@
     object-fit: cover;
     border-radius: 16px;
   }
-  .dialog-title { font-size: 1.1em; font-weight: 700; color: #1e1e3a; margin-bottom: 6px; }
-  .dialog-text { font-size: 0.85em; color: #999; margin-bottom: 22px; line-height: 1.5; }
+  .dialog-title { font-size: 1.1em; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; transition: color 0.5s ease; }
+  .dialog-text { font-size: 0.85em; color: var(--text-muted); margin-bottom: 22px; line-height: 1.5; transition: color 0.5s ease; }
   .dialog-btn {
     display: block; width: 100%; padding: 12px; border: none; border-radius: 12px;
-    font-size: 1em; font-weight: 600; cursor: pointer; text-decoration: none; margin-bottom: 10px; transition: opacity 0.2s;
+    font-size: 1em; font-weight: 600; cursor: pointer; text-decoration: none; margin-bottom: 10px; transition: opacity 0.2s, background 0.5s ease, color 0.5s ease;
   }
-  .dialog-btn-primary { background: linear-gradient(135deg, #667eea, #7c3aed); color: #fff; }
+  .dialog-btn-primary { background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple)); color: #fff; }
   .dialog-btn-primary:hover { opacity: 0.88; }
-  .dialog-btn-cancel { background: #f3f1ff; color: #7c3aed; }
-  .dialog-btn-cancel:hover { background: #ebe5ff; }
+  .dialog-btn-cancel { background: var(--dialog-btn-cancel-bg); color: var(--accent-purple); }
+  .dialog-btn-cancel:hover { background: var(--dialog-btn-cancel-hover); }
 
   /* ===== 响应式 ===== */
   @media (max-width: 820px) {
     .card-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
     .page-header::before, .page-header::after { display: none; }
+    .theme-toggle { width: 42px; height: 42px; font-size: 1.2em; }
   }
   @media (max-width: 420px) {
     .container { padding: 24px 12px 0; }
     .page-header h1 { font-size: 1.3em; }
+    .theme-toggle { width: 38px; height: 38px; font-size: 1.1em; top: 10px; right: 10px; }
   }
 </style>
 </head>
 <body>
 
-<!-- 背景装饰层 -->
+<!-- 星空背景层（暗色模式） -->
+<div class="stars-layer" id="starsLayer">
+  <canvas id="starCanvas"></canvas>
+  <div class="nebula nebula-1"></div>
+  <div class="nebula nebula-2"></div>
+  <div class="nebula nebula-3"></div>
+  <div class="nebula nebula-4"></div>
+  <div class="meteor meteor-1"></div>
+  <div class="meteor meteor-2"></div>
+  <div class="meteor meteor-3"></div>
+</div>
+
+<!-- 浅色模式背景装饰层 -->
 <div class="bg-deco">
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
@@ -258,6 +551,12 @@
   <div class="shape shape-dot s11"></div>
   <div class="shape shape-triangle s12"></div>
 </div>
+
+<!-- 昼夜切换按钮 -->
+<button class="theme-toggle" id="themeToggle" aria-label="切换主题">
+  <span class="icon-sun">☀️</span>
+  <span class="icon-moon">🌙</span>
+</button>
 
 <div class="top-bar"></div>
 
@@ -283,31 +582,23 @@
       </div>
     </a>
 
-    <!-- 卡片2：外挂交流群（2）✅ 已激活 -->
-    <a class="group-card" href="javascript:void(0)"
-       data-name="外挂交流群（2）"
-       data-avatar="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY421qeV_Iyg1x05Du8duI636tAAEd2coAApkkAAIVXdFXKL9T6pnv27E9BA.jpeg"
-       data-link="https://qm.qq.com/q/TAn33pt7O2">
-      <div class="card-banner bg-2">
-        <img class="group-avatar" src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY421qeV_Iyg1x05Du8duI636tAAEd2coAApkkAAIVXdFXKL9T6pnv27E9BA.jpeg" alt="外挂交流群（2）头像">
-      </div>
+    <!-- 卡片2（未创建群） -->
+    <a class="group-card disabled" href="javascript:void(0)"
+       data-name="外挂交流群（2）" data-link="">
+      <div class="card-banner bg-2"></div>
       <div class="card-body">
         <div class="card-title">外挂交流群（2）</div>
-        <div class="card-subtitle">群号：536538652</div>
+        <div class="card-subtitle">群号：********</div>
       </div>
     </a>
 
-    <!-- 卡片3：迷你世界辅助群 ✅ 已激活 -->
-    <a class="group-card" href="javascript:void(0)"
-       data-name="迷你世界辅助群"
-       data-avatar="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY421qeV_Iyg1x05Du8duI636tAAEd2coAApkkAAIVXdFXKL9T6pnv27E9BA.jpeg"
-       data-link="https://qm.qq.com/q/xkhJyJTKWA">
-      <div class="card-banner bg-3">
-        <img class="group-avatar" src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAEY421qeV_Iyg1x05Du8duI636tAAEd2coAApkkAAIVXdFXKL9T6pnv27E9BA.jpeg" alt="迷你世界辅助群头像">
-      </div>
+    <!-- 卡片3（未创建群） -->
+    <a class="group-card disabled" href="javascript:void(0)"
+       data-name="迷你世界辅助群" data-link="">
+      <div class="card-banner bg-3"></div>
       <div class="card-body">
         <div class="card-title">迷你世界辅助群</div>
-        <div class="card-subtitle">群号：912276866</div>
+        <div class="card-subtitle">群号：********</div>
       </div>
     </a>
 
@@ -341,26 +632,6 @@
       </div>
     </a>
 
-    <!-- 卡片7（未创建群） -->
-    <a class="group-card disabled" href="javascript:void(0)"
-       data-name="游戏开黑群" data-link="">
-      <div class="card-banner bg-7"></div>
-      <div class="card-body">
-        <div class="card-title">游戏开黑群</div>
-        <div class="card-subtitle">群号：********</div>
-      </div>
-    </a>
-
-    <!-- 卡片8（未创建群） -->
-    <a class="group-card disabled" href="javascript:void(0)"
-       data-name="日常闲聊群" data-link="">
-      <div class="card-banner bg-8"></div>
-      <div class="card-body">
-        <div class="card-title">日常闲聊群</div>
-        <div class="card-subtitle">群号：********</div>
-      </div>
-    </a>
-
   </div>
 
   <div class="footer-section">
@@ -381,6 +652,107 @@
 </div>
 
 <script>
+  // ===== 主题切换逻辑 =====
+  const themeToggle = document.getElementById('themeToggle');
+  const html = document.documentElement;
+
+  // 从 localStorage 读取保存的主题，默认 dark
+  const savedTheme = localStorage.getItem('theme') || 'dark';
+  html.setAttribute('data-theme', savedTheme);
+
+  themeToggle.addEventListener('click', () => {
+    const current = html.getAttribute('data-theme');
+    const next = current === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+
+  // ===== 星空 Canvas 动画 =====
+  function initStars() {
+    const canvas = document.getElementById('starCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+
+    function createStars() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const count = isDark ? 180 : 0;
+      const stars = [];
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.5 + 0.3,
+          opacity: Math.random() * 0.7 + 0.3,
+          speed: Math.random() * 0.3 + 0.05,
+          twinkleSpeed: Math.random() * 0.02 + 0.005,
+          twinkleDir: Math.random() > 0.5 ? 1 : -1,
+          color: Math.random() > 0.7 ? '#a78bfa' : (Math.random() > 0.5 ? '#818cf8' : '#ffffff')
+        });
+      }
+      return stars;
+    }
+
+    let stars = createStars();
+
+    function draw() {
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      if (isDark) {
+        stars.forEach(star => {
+          // 闪烁
+          star.opacity += star.twinkleSpeed * star.twinkleDir;
+          if (star.opacity >= 1) { star.opacity = 1; star.twinkleDir = -1; }
+          if (star.opacity <= 0.2) { star.opacity = 0.2; star.twinkleDir = 1; }
+
+          // 缓慢移动
+          star.y -= star.speed * 0.1;
+          if (star.y < 0) star.y = canvas.height;
+
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fillStyle = star.color;
+          ctx.globalAlpha = star.opacity;
+          ctx.fill();
+
+          // 大星星加光晕
+          if (star.radius > 1.2) {
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.radius * 3, 0, Math.PI * 2);
+            ctx.fillStyle = star.color;
+            ctx.globalAlpha = star.opacity * 0.1;
+            ctx.fill();
+          }
+        });
+      }
+      ctx.globalAlpha = 1;
+
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    draw();
+
+    window.addEventListener('resize', () => {
+      resize();
+      stars = createStars();
+    });
+
+    // 主题切换时重新生成星星
+    const observer = new MutationObserver(() => {
+      stars = createStars();
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
+
+  // 初始化星空
+  initStars();
+
+  // ===== 弹窗逻辑 =====
   const overlay  = document.getElementById('overlay');
   const dTitle   = document.getElementById('dTitle');
   const dText    = document.getElementById('dText');
